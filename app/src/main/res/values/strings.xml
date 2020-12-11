@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">DynamicLoading</string>
+    <string name="accessibility_description">DynamicLoading</string>
+
 </resources>

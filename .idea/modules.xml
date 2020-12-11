@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DynamicLoading.iml" filepath="$PROJECT_DIR$/.idea/modules/DynamicLoading.iml" group="DynamicLoading" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="DynamicLoading/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/dexlib/dexlib.iml" filepath="$PROJECT_DIR$/.idea/modules/dexlib/dexlib.iml" group="DynamicLoading/dexlib" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/httplib/httplib.iml" filepath="$PROJECT_DIR$/.idea/modules/httplib/httplib.iml" group="DynamicLoading/httplib" />
+    </modules>
+  </component>
+</project>

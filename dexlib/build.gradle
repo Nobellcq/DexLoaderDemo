@@ -21,7 +21,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
@@ -31,24 +30,53 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'com.squareup:otto:1.3.8'
 }
 
-//删除isshowtoast.jar包任务
-task clearJar(type: Delete) {
-    delete 'libs/ishowtoast.jar'
+
+def SDK_BASENAME = "myjar";
+//def SDK_VERSION = "_v1.0.0";
+def sdkDestinationPath = "build/outputs/jar/";
+def zipFile = file('build/intermediates/packaged-classes/release/classes.jar')
+task deleteBuild(type: Delete) {
+    delete sdkDestinationPath + SDK_BASENAME + ".jar"
 }
 
-task makeJar(type:org.gradle.api.tasks.bundling.Jar){
-    //指定生成的jar名
-    baseName 'ishowtoast'
-    //从哪里打包class文件
-    from("$project.buildDir/intermediates/javac/debug/classes/com/zff/dexlib")
-    //打包到jar后的目录结构
-    into('com/zff/dexlib/')
-    //去掉不需要打包的目录和文件
-    exclude('test/','IShowToast.class','BuildConfig.class','R.class')
+task makeJar(type: Jar) {
+    from zipTree(zipFile)
+    from fileTree(dir: 'src/main', includes: ['assets/**'],excludes: ['BuildConfig.class','R.class']) // 打包assets目录下的所有文件
+    baseName = SDK_BASENAME
+    destinationDir = file(sdkDestinationPath)
+    exclude('test/', 'BuildConfig.class', 'R.class'
+    ,"AppInfo.class","BaseScript.class","Constants.class","IScript.class"
+    ,"Logger.class","MyAccessibility.class","TaskInfo.class","Utils.class")
     //去掉R$开头的文件
-    exclude{it.name.startsWith('R$')}
+    exclude { it.name.startsWith('R$') }
 }
+makeJar.dependsOn(deleteBuild, build)
 
-makeJar.dependsOn(clearJar,build)
+
+//task makeJar(dependsOn: ['compileReleaseJavaWithJavac'], type: Jar) {
+////    appendix = "demo"
+////    baseName = "androidJar"
+////    version = "1.0.0"
+////    classifier = "release"
+////    //后缀名
+////    extension = "jar"
+//    //最终的 Jar 包名，如果没设置，默认为 [baseName]-[appendix]-[version]-[classifier].  [extension]
+//    //archiveName = "androidJar"
+//    //需打包的资源所在的路径集
+//    def srcClassDir = [project.buildDir.absolutePath + "/intermediates/packaged-classes/release"];
+//    //初始化资源路径集
+//    from srcClassDir
+//    //去除路径集下部分的资源
+//    exclude "com/ztf/libs/BuildConfig.class"
+//    exclude "com/dgcredit/libs/BuildConfig\$*.class"
+//    exclude "**/R.class"
+//    exclude "**/R\$*.class"
+//
+//}
+
+//makeJar.dependsOn(build)
+
+
